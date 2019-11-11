@@ -3,6 +3,12 @@ from util import json_response
 
 import data_handler
 
+
+def get_ip():
+    import socket
+    return [l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0]
+
+
 app = Flask(__name__)
 
 
@@ -34,7 +40,8 @@ def get_cards_for_board(board_id: int):
 
 
 def main():
-    app.run(debug=True)
+    app.run(debug=True,
+            host=get_ip())
 
     # Serving the favicon
     with app.app_context():
