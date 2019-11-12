@@ -28,11 +28,9 @@ export let dom = {
             `;
         }
 
-        const outerHtml = `
-            <div class="board-container">
+        const outerHtml = ` 
                 ${boardList}
-            </div>
-        `;
+        `; // Not used at the moment but we'll need it later
 
         let boardsContainer = document.querySelector('.board-container');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
