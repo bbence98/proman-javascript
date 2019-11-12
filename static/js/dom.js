@@ -28,12 +28,14 @@ export let dom = {
             `;
         }
 
-        const outerHtml = ` 
+        const outerHtml = `
+            <div class="board-container">
                 ${boardList}
+            </div>            
         `; // Not used at the moment but we'll need it later
 
-        let boardsContainer = document.querySelector('.board-container');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        let boardsContainer = document.querySelector('.main-header');
+        boardsContainer.insertAdjacentHTML("afterend", outerHtml);
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
