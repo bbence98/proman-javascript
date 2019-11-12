@@ -127,3 +127,30 @@ section.board{
 .card-title{
     padding-right: 16px;
 }
+
+.hide {
+    display: none;
+}
+
+.modal {
+    padding: 15px;
+    margin-left: 100px;
+    margin-top: 80px;
+    margin-right: 580px;
+    margin-bottom: 200px;
+    border: 3px solid darkslategray;
+}
+
+#close-modal {
+    margin-top: 10px;
+    position: absolute;
+    right: 15px;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.modal-content {
+    padding: 5px;
+    background-color: darkslategray;
+    opacity: 0.9;
+}
