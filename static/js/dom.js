@@ -19,18 +19,23 @@ export let dom = {
 
         for(let board of boards){
             boardList += `
-                <li>${board.title}</li>
+                <section class="board">
+                    <div class="board-header"><span class="board-title">${board.title}</span>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </section>
             `;
         }
 
         const outerHtml = `
-            <ul class="board-container">
+            <div class="board-container">
                 ${boardList}
-            </ul>
-        `;
+            </div>            
+        `; // Not used at the moment but we'll need it later
 
-        let boardsContainer = document.querySelector('#boards');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        let boardsContainer = document.querySelector('.main-header');
+        boardsContainer.insertAdjacentHTML("afterend", outerHtml);
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
