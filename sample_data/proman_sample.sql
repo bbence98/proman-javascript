@@ -63,7 +63,7 @@ ALTER TABLE ONLY cards
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_statuses_id FOREIGN KEY (statuses_id) REFERENCES statuses(id);
 
-INSERT INTO public.users (id, name, password) VALUES (1, 'admin', 'admin');
+INSERT INTO public.users (id, name, password) VALUES (1, 'admin', '$2b$12$olSVRWsB/1U/zexb3Oemced1Dn14OGH.ISfXMHWQFXpmCTF910DlO');
 INSERT INTO public.boards (id, title) VALUES (1, 'Board 1');
 INSERT INTO public.boards (id, title) VALUES (2, 'Board 2');
 INSERT INTO public.statuses (id, title) VALUES (0, 'new');
