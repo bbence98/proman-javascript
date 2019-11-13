@@ -18,6 +18,20 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
+        <button class="" id="login_button">Login</button>
+        <h3 class="user" id="user">User</h3>
         <h1 class="main-header">ProMan</h1>
     </body>
+    <form id="login_form">
+        <h2>Login</h2>
+        <input name="login_name" id="login_name" placeholder="name"><br>
+        <input  name="login_password" id="login_password" placeholder="password"><br>
+        <button id="login_submit" onclick="return false">Login</button>
+    </form>
+    <form id="register_form">
+        <h2>Registration</h2>
+        <input id="register_name" placeholder="name"><br>
+        <input id="register_password" placeholder="password"><br>
+        <button id="register_submit" onclick="return false">Register</button>
+    </form>
 </html>

@@ -47,7 +47,7 @@ export let dom = {
 
         const createBoard = document.querySelector('.new-board');
         createBoard.addEventListener('click', function () {
-            dataHandler.createNewBoard(); // not works yet
+            dataHandler.createNewBoard();
             dom.createBoard()
         });
     },
@@ -70,4 +70,4 @@ export let dom = {
         let boardContainer = document.querySelector('.board-container');
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
     }
-}
+};
