@@ -61,6 +61,13 @@ export let dataHandler = {
 
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
+    },
+    getColumnsById: function (boardID, callback) {
+    let url = `/get-columns-for-board/${boardID}`;
+    this._api_get(url, (response) => {
+        this._data = response;
+        callback(response);
+    });
     }
 
     // here comes more features

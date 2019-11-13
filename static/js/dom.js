@@ -3,7 +3,8 @@ import { dataHandler } from "./data_handler.js";
 
 export let dom = {
     init: function () {
-        // This function should run once, when the page is loaded.
+        dom.loadBoards();
+        dom.loadColumnsById('1');
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -16,10 +17,11 @@ export let dom = {
         // it adds necessary event listeners also
 
         let boardList = '';
-
+        let boardCounter = 0;
         for (let board of boards) {
+            boardCounter++;
             boardList += `
-                <section class="board">
+                <section class="board" id="board${boardCounter}">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
@@ -69,5 +71,29 @@ export let dom = {
         `;
         let boardContainer = document.querySelector('.board-container');
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
+    },
+    loadColumnsById: function (boardId) {
+        dataHandler.getColumnsById(boardId,function (boards) {
+            //boards here is column number, sorry
+            let columnContent = '';
+            for (let column = 1; column<boards+1; column++) {
+                columnContent += `
+                        <div class="board-column">
+                        <div class="board-column-title">Column ${column}</div>
+                        <div class="board-column-content"></div>
+                        </div>`;
+            }
+            let outerColumnContent = `
+                       <div class="board-columns">
+                       ${columnContent}
+                       </div>
+            `;
+
+            let domToAppend = `#board${boardId}`;
+            let element = document.querySelector(domToAppend);
+            let nodeColumnContent = document.createRange().createContextualFragment(outerColumnContent);
+            element.appendChild(nodeColumnContent)
+
+        });
     }
 };

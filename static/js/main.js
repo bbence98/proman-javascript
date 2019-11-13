@@ -5,8 +5,6 @@ import { user_manager } from "./user_manager.js"
 function init() {
     // init data
     dom.init();
-    // loads the boards to the screen
-    dom.loadBoards();
     // loads user functions
     user_manager.main();
 }
