@@ -40,6 +40,12 @@ def get_cards_for_board(board_id: int):
     return data_manager.get_cards_for_board(board_id)
 
 
+@app.route('/new-board')
+@json_response
+def create_new_board():
+    print()
+    return 1
+
 def main():
     app.run(debug=True,
             host=get_ip())

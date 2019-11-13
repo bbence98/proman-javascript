@@ -37,6 +37,11 @@ button{
     margin: 0 auto;
 }
 
+.new-board-container {
+    max-width: 920px;
+    margin: auto;
+}
+
 section.board{
     margin: 20px;
     border: aliceblue;
