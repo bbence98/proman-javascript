@@ -7,7 +7,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
@@ -17,7 +17,7 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
+        for (let board of boards) {
             boardList += `
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
@@ -32,10 +32,24 @@ export let dom = {
             <div class="board-container">
                 ${boardList}
             </div>            
-        `; // Not used at the moment but we'll need it later
+        `;
 
-        let boardsContainer = document.querySelector('.main-header');
-        boardsContainer.insertAdjacentHTML("afterend", outerHtml);
+        const createBoardBtn = `
+        <div class="new-board-container">
+            <button type="button" class="new-board">Add new board</button>
+        </div>
+        `;
+
+        let mainHeader = document.querySelector('.main-header');
+        mainHeader.insertAdjacentHTML("afterend", outerHtml);
+        let boardContainer = document.querySelector('.board-container');
+        boardContainer.insertAdjacentHTML('beforebegin', createBoardBtn);
+
+        const createBoard = document.querySelector('.new-board');
+        createBoard.addEventListener('click', function () {
+            dataHandler.createNewBoard();
+            dom.createBoard()
+        });
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -44,5 +58,16 @@ export let dom = {
         // shows the cards of a board
         // it adds necessary event listeners also
     },
-    // here comes more features
+    createBoard: function () {
+        const addBoard = `
+        <section class="board">
+            <div class="board-header"><span class="board-title">New Board</span>
+                <button class="board-add">Add Card</button>
+                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+            </div>
+        </section>
+        `;
+        let boardContainer = document.querySelector('.board-container');
+        boardContainer.insertAdjacentHTML('beforeend', addBoard)
+    }
 };
