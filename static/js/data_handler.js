@@ -39,6 +39,7 @@ export let dataHandler = {
 
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        this._api_get('/')
     },
 
     getStatuses: function (callback) {

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
 from util import json_response
 
 import data_manager
@@ -38,6 +38,13 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_manager.get_cards_for_board(board_id)
+
+
+@app.route('/get-columns-for-board/<int:board_id>')
+@json_response
+def get_statuses_for_board(board_id: int):
+    return data_manager.select_query(table='boards', column='column_number',
+                                     clause='WHERE', condition=['id', '=', board_id])[0].get('column_number')
 
 
 def main():
