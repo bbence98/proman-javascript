@@ -29,7 +29,7 @@ def get_boards():
     """
     All the boards
     """
-    return data_manager.select_query(table='boards', column='title')
+    return data_manager.select_query(table='boards')
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -50,6 +50,10 @@ def create_new_board():
     content['title'] = data
     return data_manager.insert_record(table_name='boards', records=content)
 
+@app.route('/delete-board/<board_id>', methods=['POST'])
+@json_response
+def delete_board(board_id: int):
+    return data_manager.delete_record(table='boards', clause='WHERE', condition=['id', '=', board_id])
 
 
 

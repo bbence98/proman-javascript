@@ -21,6 +21,7 @@ export let dom = {
             boardList += `
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
+                        <button class="board-delete">Delete Board</button>
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
@@ -48,8 +49,18 @@ export let dom = {
         const createBoard = document.querySelector('.new-board');
         createBoard.addEventListener('click', function () {
             dataHandler.createNewBoard();
-            dom.createBoard()
+            dom.createBoard();
+            location.reload()
         });
+        const deleteBoard = document.querySelectorAll('.board-delete');
+        for (let i = 0; i < deleteBoard.length; i++) {
+            deleteBoard[i].addEventListener('click', function () {
+                dataHandler.getBoards(function (data) {
+                    dataHandler.deleteBoard(data[i].id);
+                    location.reload()
+                });
+            });
+        }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -62,6 +73,7 @@ export let dom = {
         const addBoard = `
         <section class="board">
             <div class="board-header"><span class="board-title">New Board</span>
+                <button class="board-delete">Delete Board</button>
                 <button class="board-add">Add Card</button>
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
             </div>
@@ -69,5 +81,8 @@ export let dom = {
         `;
         let boardContainer = document.querySelector('.board-container');
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
+    },
+    deleteBoard: function (boardId) {
+        console.log(boardId)
     }
 };
