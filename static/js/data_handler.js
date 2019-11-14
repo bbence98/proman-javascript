@@ -66,6 +66,15 @@ export let dataHandler = {
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
     },
+
+    deleteBoard: function (boardId) {
+        post_fetch.fetch_it(`/delete-board/${boardId}`, boardId)
+    },
+
+    deleteCard: function (cardId) {
+        post_fetch.fetch_it(`/delete-card/${cardId}`, cardId)
+    },
+
     getColumnsById: function (boardID, callback) {
     let url = `/get-columns-for-board/${boardID}`;
     this._api_get(url, (response) => {

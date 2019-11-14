@@ -74,9 +74,7 @@ def delete_record(cursor, table, clause, condition=[]):
     if len(condition) == 3:
         condition[2] = '\'' + str(condition[2]) + '\''
     cursor.execute(sql.SQL(
-        f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}')
-    )
-
+        f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}'))
 
 @database_common.connection_handler
 def get_cards(cursor, board_id):
