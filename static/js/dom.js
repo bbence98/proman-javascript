@@ -11,8 +11,9 @@ export let dom = {
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
             for(let board of boards) {
-                dom.loadColumnsById(board.id);
-                dom.loadCards(board.id);
+                dom.loadColumnsById(board.id, () => {
+                    dom.loadCards(board.id);
+                });
             }
         });
     },
@@ -115,7 +116,7 @@ export let dom = {
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
     },
 
-    loadColumnsById: function (boardId) {
+    loadColumnsById: function (boardId, callback) {
         dataHandler.getColumnsById(boardId,function (boards) {
             //boards here is column number, sorry
             let columnContent = '';
@@ -135,8 +136,9 @@ export let dom = {
             let domToAppend = `#board${boardId}`;
             let element = document.querySelector(domToAppend);
             let nodeColumnContent = document.createRange().createContextualFragment(outerColumnContent);
-            element.appendChild(nodeColumnContent)
+            element.appendChild(nodeColumnContent);
 
+            callback();
         });
     }
 };
