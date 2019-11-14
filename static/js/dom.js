@@ -4,6 +4,7 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         dom.loadBoards();
+        dom.deleteCards();
     },
 
     loadBoards: function () {
@@ -60,6 +61,7 @@ export let dom = {
             location.reload()
         });
         const deleteBoard = document.querySelectorAll('.board-delete');
+        console.log(deleteBoard);
         for (let i = 0; i < deleteBoard.length; i++) {
             deleteBoard[i].addEventListener('click', function () {
                 dataHandler.getBoards(function (data) {
@@ -98,6 +100,7 @@ export let dom = {
             let nodeCard = document.createRange().createContextualFragment(cardHtml);
             currentColumn.appendChild(nodeCard);
         }
+        dom.deleteCards()
 
     },
 
@@ -138,5 +141,15 @@ export let dom = {
             element.appendChild(nodeColumnContent)
 
         });
+    },
+
+    deleteCards: function () {
+        const del_cards = document.querySelectorAll('.card-remove');
+        console.log(del_cards);
+        for (let i = 0; i < del_cards.length; i++) {
+            del_cards[i].addEventListener('click', function () {
+                console.log(del_cards[i])
+            })
+        }
     }
 };
