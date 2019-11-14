@@ -59,7 +59,7 @@ def delete_board(board_id: int):
 
 @app.route('/delete-card/<card_id>', methods=['POST'])
 @json_response
-def delete_board(card_id: int):
+def delete_card(card_id: int):
     return data_manager.delete_record(table='cards', clause='WHERE', condition=['id', '=', card_id])
 
 
