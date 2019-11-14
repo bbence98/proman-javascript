@@ -1,6 +1,5 @@
 import database_common
 from psycopg2 import sql
-import bcrypt
 
 
 @database_common.connection_handler
@@ -75,18 +74,16 @@ def delete_record(cursor, table, clause, condition=[]):
     if len(condition) == 3:
         condition[2] = '\'' + str(condition[2]) + '\''
     cursor.execute(sql.SQL(
-        f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}')
-    )
+        f'DELETE FROM {table} {clause} {condition[0] + condition[1] + condition[2] if len(condition) == 3 else ""}'))
 
-
-def hash_password(plain_text_password):
-    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
-    return hashed_bytes.decode('utf-8')
-
-
-def verify_password(plain_text_password, hashed_password):
-    hashed_bytes_password = hashed_password.encode('utf-8')
-    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+@database_common.connection_handler
+def get_cards(cursor, board_id):
+    cursor.execute("""
+                    SELECT * FROM cards
+                    WHERE boards_id = %(board_id)s;
+    """,
+                   {'board_id': board_id})
+    return cursor.fetchall()
 
 
 def get_user_names():
@@ -95,3 +92,5 @@ def get_user_names():
     for item in users:
         user_name[item['id']] = item['user_name']
     return user_name
+
+
