@@ -67,7 +67,6 @@ export let dom = {
     showCards: function (cards, boardId) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        console.log(cards);
         let currentBoardSelector = `#board${boardId}`;
         let currentBoard = document.querySelector(currentBoardSelector);
         for (let card of cards) {
