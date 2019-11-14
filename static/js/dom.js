@@ -5,12 +5,14 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
     },
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
+
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
@@ -62,13 +64,16 @@ export let dom = {
             });
         }
     },
+
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
     },
+
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
     },
+
     createBoard: function () {
         const addBoard = `
         <section class="board">
@@ -81,8 +86,5 @@ export let dom = {
         `;
         let boardContainer = document.querySelector('.board-container');
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
-    },
-    deleteBoard: function (boardId) {
-        console.log(boardId)
     }
 };

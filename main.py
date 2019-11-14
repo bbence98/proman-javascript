@@ -50,11 +50,17 @@ def create_new_board():
     content['title'] = data
     return data_manager.insert_record(table_name='boards', records=content)
 
+
 @app.route('/delete-board/<board_id>', methods=['POST'])
 @json_response
 def delete_board(board_id: int):
     return data_manager.delete_record(table='boards', clause='WHERE', condition=['id', '=', board_id])
 
+
+@app.route('/delete-card/<card_id>', methods=['POST'])
+@json_response
+def delete_board(card_id: int):
+    return data_manager.delete_record(table='cards', clause='WHERE', condition=['id', '=', card_id])
 
 
 @app.route("/login", methods=['POST'])

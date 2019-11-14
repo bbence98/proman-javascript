@@ -47,7 +47,7 @@ export let dataHandler = {
     },
 
     getCardsByBoardId: function (boardId, callback) {
-        // the cards are retrieved and then the callback function is called with the cards
+        post_fetch.fetch_it(`/get-cards/${boardId}`, boardId)
     },
 
     getCard: function (cardId, callback) {
@@ -64,6 +64,10 @@ export let dataHandler = {
 
     deleteBoard: function (boardId) {
         post_fetch.fetch_it(`/delete-board/${boardId}`, boardId)
+    },
+
+    deleteCard: function (cardId) {
+        post_fetch.fetch_it(`/delete-card/${cardId}`, cardId)
     }
 
     // here comes more features
