@@ -1,3 +1,5 @@
+import {post_fetch} from "./post_fetch.js";
+
 // this object contains the functions which handle the data and its reading/writing
 // feel free to extend and change to fit your needs
 
@@ -18,11 +20,6 @@ export let dataHandler = {
         .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
 
-    _api_post: function (url, data, callback) {
-        // it is not called from outside
-        // sends the data to the API, and calls callback function
-    },
-
     init: function () {
     },
 
@@ -39,6 +36,7 @@ export let dataHandler = {
 
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        this._api_get('/')
     },
 
     getStatuses: function (callback) {
@@ -50,19 +48,39 @@ export let dataHandler = {
     },
 
     getCardsByBoardId: function (boardId, callback) {
-        // the cards are retrieved and then the callback function is called with the cards
+        let url = `/get-cards-by-board-id/${boardId}`;
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(response);
+        })
     },
 
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
     },
 
-    createNewBoard: function (boardTitle, callback) {
-        // creates new board, saves it and calls the callback function with its data
+    createNewBoard: function (boardTitle='New Board', callback) {
+        post_fetch.fetch_it('/new-board', boardTitle)
     },
 
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
+    },
+
+    deleteBoard: function (boardId) {
+        post_fetch.fetch_it(`/delete-board/${boardId}`, boardId)
+    },
+
+    deleteCard: function (cardId) {
+        post_fetch.fetch_it(`/delete-card/${cardId}`, cardId)
+    },
+
+    getColumnsById: function (boardID, callback) {
+    let url = `/get-columns-for-board/${boardID}`;
+    this._api_get(url, (response) => {
+        this._data = response;
+        callback(response);
+    });
     }
 
     // here comes more features

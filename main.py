@@ -29,7 +29,7 @@ def get_boards():
     """
     All the boards
     """
-    return data_manager.get_boards()
+    return data_manager.select_query(table='boards')
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -39,7 +39,28 @@ def get_cards_for_board(board_id: int):
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    return data_manager.get_cards_for_board(board_id)
+    return data_manager.select_query(table='cards', clause='WHERE', condition=['boards_id', '=', board_id])
+
+
+@app.route('/new-board', methods=['POST'])
+@json_response
+def create_new_board():
+    content = {}
+    data = request.get_json()
+    content['title'] = data
+    return data_manager.insert_record(table_name='boards', records=content)
+
+
+@app.route('/delete-board/<board_id>', methods=['POST'])
+@json_response
+def delete_board(board_id: int):
+    return data_manager.delete_record(table='boards', clause='WHERE', condition=['id', '=', board_id])
+
+
+@app.route('/delete-card/<card_id>', methods=['POST'])
+@json_response
+def delete_card(card_id: int):
+    return data_manager.delete_record(table='cards', clause='WHERE', condition=['id', '=', card_id])
 
 
 @app.route("/login", methods=['POST'])
@@ -48,11 +69,25 @@ def login():
     return validate_user(request.get_json()['login_name'], request.get_json()['login_password'])
 
 
+
 @app.route("/registration", methods=['POST'])
 @json_response
 def register():
     print(request.get_json())
     return user_in_db(request.get_json()['register_name'], request.get_json()['register_password'])
+
+  
+@app.route('/get-columns-for-board/<int:board_id>')
+@json_response
+def get_statuses_for_board(board_id: int):
+    return data_manager.select_query(table='boards', column='column_number',
+                                     clause='WHERE', condition=['id', '=', board_id])[0].get('column_number')
+
+
+@app.route('/get-cards-by-board-id/<int:board_id>')
+@json_response
+def get_cards_by_board_id(board_id: int):
+    return data_manager.get_cards(board_id)
 
 
 def main():
