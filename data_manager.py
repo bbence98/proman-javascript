@@ -78,6 +78,15 @@ def delete_record(cursor, table, clause, condition=[]):
     )
 
 
+@database_common.connection_handler
+def get_cards(cursor, board_id):
+    cursor.execute("""
+                    SELECT * FROM cards
+                    WHERE boards_id = %(board_id)s;
+    """,
+                   {'board_id': board_id})
+    return cursor.fetchall()
+
 
 def get_user_names():
     users = select_query(table='users', order_column='id', order_asc_desc='ASC')

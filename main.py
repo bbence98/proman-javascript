@@ -29,7 +29,7 @@ def get_boards():
     """
     All the boards
     """
-    return data_manager.select_query(table='boards', column='title')
+    return data_manager.select_query(table='boards')
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -51,8 +51,6 @@ def create_new_board():
     return data_manager.insert_record(table_name='boards', records=content)
 
 
-
-
 @app.route("/login", methods=['POST'])
 @json_response
 def login():
@@ -64,6 +62,12 @@ def login():
 def get_statuses_for_board(board_id: int):
     return data_manager.select_query(table='boards', column='column_number',
                                      clause='WHERE', condition=['id', '=', board_id])[0].get('column_number')
+
+
+@app.route('/get-cards-by-board-id/<int:board_id>')
+@json_response
+def get_cards_by_board_id(board_id: int):
+    return data_manager.get_cards(board_id)
 
 
 def main():

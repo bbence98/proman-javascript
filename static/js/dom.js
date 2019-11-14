@@ -9,9 +9,9 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
-            let boardsNumber = boards.length;
-            for (let i=1; i<boardsNumber+1; i++) {
-                dom.loadColumnsById(i);
+            for(let board of boards) {
+                dom.loadColumnsById(board.id);
+                dom.loadCards(board.id);
             }
         });
     },
@@ -24,7 +24,7 @@ export let dom = {
         for (let board of boards) {
             boardCounter++;
             boardList += `
-                <section class="board" id="board${boardCounter}">
+                <section class="board" id="board${board.id}">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
@@ -58,10 +58,33 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
+            dom.showCards(cards, boardId);
+            }
+
+        )
     },
-    showCards: function (cards) {
+    showCards: function (cards, boardId) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        console.log(cards);
+        let currentBoardSelector = `#board${boardId}`;
+        let currentBoard = document.querySelector(currentBoardSelector);
+        for (let card of cards) {
+           let cardHtml = `
+                            <div class="card">
+                            <div class="card-remove">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div class="card-title">${card.title}</div>
+                            </div>
+                          `
+            let columnSelector = `#column${card.statuses_id}`;
+            let currentColumn = currentBoard.querySelector(columnSelector);
+            let nodeCard = document.createRange().createContextualFragment(cardHtml);
+            currentColumn.appendChild(nodeCard);
+        }
+
     },
     createBoard: function () {
         const addBoard = `
@@ -83,7 +106,7 @@ export let dom = {
                 columnContent += `
                         <div class="board-column">
                         <div class="board-column-title">Column ${column}</div>
-                        <div class="board-column-content"></div>
+                        <div class="board-column-content" id="column${column-1}"></div>
                         </div>`;
             }
             let outerColumnContent = `
