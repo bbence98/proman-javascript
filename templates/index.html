@@ -6,32 +6,46 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>ProMan</title>
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/solid.css" integrity="sha384-rdyFrfAIC05c5ph7BKz3l5NG5yEottvO/DQ0dCrwD8gzeQDjYBHNr1ucUpQuljos" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/fontawesome.css" integrity="sha384-u5J7JghGz0qUrmEsWzBQkfvc8nK3fUT7DCaQzNQ+q4oEXhGSx+P2OqjWsfIRB8QT" crossorigin="anonymous">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <button class="" id="login_button">Login</button>
-        <h3 class="user" id="user">User</h3>
+        <button class="" id="login_button" >Log in</button>
+        <button class="" id="register_button" >Register</button>
+        <h3 class="user" id="user"></h3>
         <h1 class="main-header">ProMan</h1>
+        <div class="modal">
+            <div class="modal-content">
+                <button id="close_modal" onclick="return false">X</button>
+                <form id="login_form" class="hide">
+                    <h2>Log in</h2><br>
+                    <input name="login_name" id="login_name" placeholder="name"><br>
+                    <input  name="login_password" id="login_password" placeholder="password" type="password"><br>
+                    <button id="login_submit"  type="submit" onclick="return false">Login</button>
+                    <h4 id="login_error"></h4>
+                </form>
+                <form id="register_form" class="hide">
+                    <h2>Registration</h2><br>
+                    <input name="register_name" id="register_name" placeholder="name"><br>
+                    <input name="register_password" id="register_password" placeholder="password" type="password"><br>
+                    <button id="register_submit" onclick="return false">Register</button>
+                    <h4 id="register_error"></h4>
+                </form>
+            </div>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
     </body>
-    <form id="login_form">
-        <h2>Login</h2>
-        <input name="login_name" id="login_name" placeholder="name"><br>
-        <input  name="login_password" id="login_password" placeholder="password"><br>
-        <button id="login_submit" onclick="return false">Login</button>
-    </form>
-    <form id="register_form">
-        <h2>Registration</h2>
-        <input id="register_name" placeholder="name"><br>
-        <input id="register_password" placeholder="password"><br>
-        <button id="register_submit" onclick="return false">Register</button>
-    </form>
 </html>

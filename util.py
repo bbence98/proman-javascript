@@ -17,11 +17,13 @@ def json_response(func):
     return decorated_function
 
 
-def user_in_db(name):
+def user_in_db(name, password):
     user = data_manager.select_query(table='users', clause='WHERE', condition=['name', '=', name])
-    if user:
-        return True
-    return False
+    print(user)
+    if not user:
+        data_manager.insert_record('users', {'name': name, 'password': hash.hash_password(password)})
+        return {"registration_legit": True}
+    return {"registration_legit": False}
 
 
 def validate_user(name, password):
@@ -30,6 +32,6 @@ def validate_user(name, password):
     try:
         return {"name": name, "password_legit": hash.verify_password(password, user_name[0]['password'])}
     except IndexError:
-        return False
+        return {"name": name, "password_legit": False}
 
 
