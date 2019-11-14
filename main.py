@@ -69,6 +69,19 @@ def login():
     return validate_user(request.get_json()['login_name'], request.get_json()['login_password'])
 
 
+@app.route('/get-columns-for-board/<int:board_id>')
+@json_response
+def get_statuses_for_board(board_id: int):
+    return data_manager.select_query(table='boards', column='column_number',
+                                     clause='WHERE', condition=['id', '=', board_id])[0].get('column_number')
+
+
+@app.route('/get-cards-by-board-id/<int:board_id>')
+@json_response
+def get_cards_by_board_id(board_id: int):
+    return data_manager.get_cards(board_id)
+
+
 def main():
     app.run(debug=True,
             host=get_ip())

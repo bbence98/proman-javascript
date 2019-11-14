@@ -17,7 +17,8 @@ DROP TABLE IF EXISTS public.boards;
 DROP SEQUENCE IF EXISTS public.boards_id_seq;
 CREATE TABLE boards (
     id serial NOT NULL,
-    title text
+    title text,
+    column_number integer
 );
 
 DROP TABLE IF EXISTS public.cards;
@@ -65,8 +66,8 @@ ALTER TABLE ONLY cards
 
 INSERT INTO public.users (id, name, password) VALUES (1, 'admin', '$2b$12$olSVRWsB/1U/zexb3Oemced1Dn14OGH.ISfXMHWQFXpmCTF910DlO');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
-INSERT INTO public.boards (id, title) VALUES (1, 'Board 1');
-INSERT INTO public.boards (id, title) VALUES (2, 'Board 2');
+INSERT INTO public.boards (id, title, column_number) VALUES (1, 'Board 1', 4);
+INSERT INTO public.boards (id, title, column_number) VALUES (2, 'Board 2', 4);
 SELECT pg_catalog.setval('boards_id_seq', 2, true);
 INSERT INTO public.statuses (id, title) VALUES (0, 'new');
 INSERT INTO public.statuses (id, title) VALUES (1, 'in progress');

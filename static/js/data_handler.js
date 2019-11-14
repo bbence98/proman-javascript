@@ -36,6 +36,7 @@ export let dataHandler = {
 
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        this._api_get('/')
     },
 
     getStatuses: function (callback) {
@@ -47,7 +48,11 @@ export let dataHandler = {
     },
 
     getCardsByBoardId: function (boardId, callback) {
-        post_fetch.fetch_it(`/get-cards/${boardId}`, boardId)
+        let url = `/get-cards-by-board-id/${boardId}`;
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(response);
+        })
     },
 
     getCard: function (cardId, callback) {
@@ -68,6 +73,14 @@ export let dataHandler = {
 
     deleteCard: function (cardId) {
         post_fetch.fetch_it(`/delete-card/${cardId}`, cardId)
+    },
+
+    getColumnsById: function (boardID, callback) {
+    let url = `/get-columns-for-board/${boardID}`;
+    this._api_get(url, (response) => {
+        this._data = response;
+        callback(response);
+    });
     }
 
     // here comes more features
