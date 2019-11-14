@@ -4,12 +4,15 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         dom.loadBoards();
-        dom.loadColumnsById('1');
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
+            let boardsNumber = boards.length;
+            for (let i=1; i<boardsNumber+1; i++) {
+                dom.loadColumnsById(i);
+            }
         });
     },
     showBoards: function (boards) {
