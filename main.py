@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request
-from util import json_response, validate_user
+from util import json_response, validate_user, user_in_db
 
 import data_manager
 
@@ -69,6 +69,14 @@ def login():
     return validate_user(request.get_json()['login_name'], request.get_json()['login_password'])
 
 
+
+@app.route("/registration", methods=['POST'])
+@json_response
+def register():
+    print(request.get_json())
+    return user_in_db(request.get_json()['register_name'], request.get_json()['register_password'])
+
+  
 @app.route('/get-columns-for-board/<int:board_id>')
 @json_response
 def get_statuses_for_board(board_id: int):

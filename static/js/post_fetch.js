@@ -1,11 +1,7 @@
 export let post_fetch = {
     fetch_it : async function (url1, data1) {
-        try {
-          const data = await postData(url1, data1);
-          console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
-        } catch (error) {
-          console.error(error);
-        }
+        try {return await postData(url1, data1) // JSON-string from `response.json()` call
+        } catch (error) {return console.error(error);}
 
         async function postData(url = '', data = {}) {
           // Default options are marked with *
