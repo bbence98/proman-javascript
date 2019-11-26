@@ -90,6 +90,12 @@ def get_cards_by_board_id(board_id: int):
     return data_manager.get_cards(board_id)
 
 
+@app.route('/get-statuses')
+@json_response
+def get_statuses():
+    return data_manager.select_query(table='statuses')
+
+
 def main():
     app.run(debug=True,
             host=get_ip())

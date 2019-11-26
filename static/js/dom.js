@@ -12,8 +12,10 @@ export let dom = {
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
             for (let board of boards) {
-                dom.loadColumnsById(board.id, () => {
-                    dom.loadCards(board.id);
+                dataHandler.getStatuses(function (statuses) {
+                    dom.loadColumnsById(statuses, board.id, () => {
+                        dom.loadCards(board.id);
+                    });
                 });
             }
         });
@@ -114,15 +116,16 @@ export let dom = {
         boardContainer.insertAdjacentHTML('beforeend', addBoard)
     },
 
-    loadColumnsById: function (boardId, callback) {
+    loadColumnsById: function (statuses, boardId, callback) {
+        console.log(statuses);
         dataHandler.getColumnsById(boardId, function (boards) {
             //boards here is column number, sorry
             let columnContent = '';
-            for (let column = 1; column < boards + 1; column++) {
+            for (let i = 0; i < boards; i++) {
                 columnContent += `
                         <div class="board-column">
-                        <div class="board-column-title">Column ${column}</div>
-                        <div class="board-column-content" id="column${column - 1}"></div>
+                        <div class="board-column-title">${statuses[i].title}</div>
+                        <div class="board-column-content" id="column${i}"></div>
                         </div>`;
             }
             let outerColumnContent = `
@@ -139,6 +142,7 @@ export let dom = {
             callback();
         });
     },
+
     deleteCard: function () {
         const del_cards = document.querySelectorAll('.card-remove');
         for (let i = 0; i < del_cards.length; i++) {
