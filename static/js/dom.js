@@ -4,14 +4,14 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         dom.loadBoards();
-        dom.deleteCards();
+        window.onload = dom.deleteCard;
     },
 
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
-            for(let board of boards) {
+            for (let board of boards) {
                 dom.loadColumnsById(board.id, () => {
                     dom.loadCards(board.id);
                 });
@@ -45,7 +45,7 @@ export let dom = {
         `;
 
         const createBoardBtn = `
-        <div class="new-board-container">
+        <div class="add-new-board">
             <button type="button" class="new-board">Add new board</button>
         </div>
         `;
@@ -62,12 +62,11 @@ export let dom = {
             location.reload()
         });
         const deleteBoard = document.querySelectorAll('.board-delete');
-        console.log(deleteBoard);
         for (let i = 0; i < deleteBoard.length; i++) {
             deleteBoard[i].addEventListener('click', function () {
                 dataHandler.getBoards(function (data) {
                     dataHandler.deleteBoard(data[i].id);
-                    location.reload()
+                    deleteBoard[i].parentElement.parentElement.remove();
                 });
             });
         }
@@ -77,9 +76,7 @@ export let dom = {
         // retrieves cards and makes showCards called
         dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards, boardId);
-            }
-
-        )
+        });
     },
 
     showCards: function (cards, boardId) {
@@ -88,8 +85,8 @@ export let dom = {
         let currentBoardSelector = `#board${boardId}`;
         let currentBoard = document.querySelector(currentBoardSelector);
         for (let card of cards) {
-           let cardHtml = `
-                            <div class="card">
+            let cardHtml = `
+                            <div class="card" id="${card.id}">
                             <div class="card-remove">
                                 <i class="fas fa-trash-alt"></i>
                             </div>
@@ -101,8 +98,6 @@ export let dom = {
             let nodeCard = document.createRange().createContextualFragment(cardHtml);
             currentColumn.appendChild(nodeCard);
         }
-        dom.deleteCards()
-
     },
 
     createBoard: function () {
@@ -120,14 +115,14 @@ export let dom = {
     },
 
     loadColumnsById: function (boardId, callback) {
-        dataHandler.getColumnsById(boardId,function (boards) {
+        dataHandler.getColumnsById(boardId, function (boards) {
             //boards here is column number, sorry
             let columnContent = '';
-            for (let column = 1; column<boards+1; column++) {
+            for (let column = 1; column < boards + 1; column++) {
                 columnContent += `
                         <div class="board-column">
                         <div class="board-column-title">Column ${column}</div>
-                        <div class="board-column-content" id="column${column-1}"></div>
+                        <div class="board-column-content" id="column${column - 1}"></div>
                         </div>`;
             }
             let outerColumnContent = `
@@ -144,14 +139,14 @@ export let dom = {
             callback();
         });
     },
-
-    deleteCards: function () {
+    deleteCard: function () {
         const del_cards = document.querySelectorAll('.card-remove');
-        console.log(del_cards);
         for (let i = 0; i < del_cards.length; i++) {
             del_cards[i].addEventListener('click', function () {
-                console.log(del_cards[i])
-            })
+                dataHandler.deleteCard(del_cards[i].parentElement.id);
+                del_cards[i].parentElement.remove();
+            });
         }
-    }
+    },
+
 };

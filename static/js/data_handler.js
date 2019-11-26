@@ -59,8 +59,8 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
 
-    createNewBoard: function (boardTitle='New Board', callback) {
-        post_fetch.fetch_it('/new-board', boardTitle)
+    createNewBoard: function (boardTitle='New Board', column_number=4) {
+        post_fetch.fetch_it('/new-board', boardTitle, column_number)
     },
 
     createNewCard: function (cardTitle, boardId, statusId, callback) {

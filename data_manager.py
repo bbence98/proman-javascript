@@ -42,7 +42,6 @@ def select_query(cursor, table, column='', join_type='', join_table='', join_on=
     else:
         query = query.format(sql.Identifier(table))
     cursor.execute(query)
-    print(cursor.query)
     return cursor.fetchall()
 
 
