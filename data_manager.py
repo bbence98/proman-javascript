@@ -80,7 +80,7 @@ def get_cards(cursor, board_id):
     cursor.execute("""
                     SELECT * FROM cards
                     WHERE boards_id = %(board_id)s;
-    """,
+                    """,
                    {'board_id': board_id})
     return cursor.fetchall()
 
@@ -91,5 +91,23 @@ def get_user_names():
     for item in users:
         user_name[item['id']] = item['user_name']
     return user_name
+
+
+@database_common.connection_handler
+def get_next_id_from_boards(cursor):
+    cursor.execute(sql.SQL("SELECT MAX(id) FROM boards"))
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def insert_record_into_cards(cursor, records):
+    cursor.execute("""
+                    INSERT INTO cards (boards_id, title, statuses_id, orders)
+                    VALUES (%(board_id)s, %(title)s, %(status_id)s, 0)""",
+                   {'board_id': records['boards_id'],
+                    'title': records['title'],
+                    'status_id': records['statuses_id']})
+
+
 
 

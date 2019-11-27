@@ -4,7 +4,10 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         dom.loadBoards();
-        window.onload = dom.deleteCard;
+        window.onload = function () {
+            dom.createCard();
+            dom.deleteCard();
+        };
     },
 
     loadBoards: function () {
@@ -19,6 +22,22 @@ export let dom = {
                 });
             }
         });
+    },
+
+    addBoardEventListener: function (board_id) {
+        const board = document.querySelector(`#board${board_id}`);
+        const button = board.querySelector('.board-delete');
+        console.log('board id', board_id);
+        console.log('board', board);
+        console.log('button', button);
+        function eventFunc() {
+            button.addEventListener('click', function () {
+                dataHandler.deleteBoard(board_id);
+                board.remove()
+            })
+        }
+        window.addEventListener('DOMContentLoaded', eventFunc);
+
     },
 
     showBoards: function (boards) {
@@ -58,20 +77,44 @@ export let dom = {
         boardContainer.insertAdjacentHTML('beforebegin', createBoardBtn);
 
         const createBoard = document.querySelector('.new-board');
-        createBoard.addEventListener('click', function () {
-            dataHandler.createNewBoard();
-            dom.createBoard();
-            location.reload()
+        createBoard.addEventListener('click',  async function () {
+            await dataHandler.createNewBoard();
+            let lastBoardId = await dom.createBoard();
+            dom.addBoardEventListener(lastBoardId);
+
         });
-        const deleteBoard = document.querySelectorAll('.board-delete');
-        for (let i = 0; i < deleteBoard.length; i++) {
-            deleteBoard[i].addEventListener('click', function () {
-                dataHandler.getBoards(function (data) {
-                    dataHandler.deleteBoard(data[i].id);
-                    deleteBoard[i].parentElement.parentElement.remove();
-                });
-            });
+
+        const Boards = document.querySelectorAll('.board');
+        for (let board of Boards) {
+            const button = board.querySelector('.board-delete');
+            button.addEventListener('click', function () {
+                dataHandler.deleteBoard(board.id.slice(5));
+                board.remove()
+            })
+
         }
+    },
+
+    createBoard: async function () {
+          await dataHandler.getNextBoardId(function (lastBoardId) {
+            const addBoard = `
+            <section class="board" id="board${lastBoardId}">
+                <div class="board-header"><span class="board-title">New Board</span>
+                    <button class="board-delete">Delete Board</button>
+                    <button class="board-add">Add Card</button>
+                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                </div>
+            </section>
+            `;
+            let boardContainer = document.querySelector('.board-container');
+            boardContainer.insertAdjacentHTML('beforeend', addBoard);
+            dataHandler.getStatuses(function (statuses) {
+                    dom.loadColumnsById(statuses, lastBoardId, () => {
+                        dom.loadCards(lastBoardId);
+                    });
+            });
+            return lastBoardId // not works
+        });
     },
 
     loadCards: function (boardId) {
@@ -102,22 +145,29 @@ export let dom = {
         }
     },
 
-    createBoard: function () {
-        const addBoard = `
-        <section class="board">
-            <div class="board-header"><span class="board-title">New Board</span>
-                <button class="board-delete">Delete Board</button>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-        </section>
-        `;
-        let boardContainer = document.querySelector('.board-container');
-        boardContainer.insertAdjacentHTML('beforeend', addBoard)
+    createCard: function () {
+        const newCards = document.querySelectorAll('.board-add');
+        for (let i = 0; i < newCards.length; i++) {
+            newCards[i].addEventListener('click', function () {
+                let boardId = newCards[i].parentNode.parentNode.id;
+                boardId = boardId.slice(-1);
+                dataHandler.createNewCard('New Card', boardId, 0);
+                dataHandler.getCardsByBoardId(boardId, function (response) {
+                let cardHtml = `
+                        <div class="card" id="${response.slice(-1)[0].id}">
+                        <div class="card-remove">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div class="card-title">${response.slice(-1)[0].title}</div>
+                        </div>
+                      `;
+                newCards[i].parentElement.parentElement.querySelector('.board-columns').querySelector('.board-column').querySelector('.board-column-content').insertAdjacentHTML('beforeend', cardHtml);
+                });
+            })
+        }
     },
 
     loadColumnsById: function (statuses, boardId, callback) {
-        console.log(statuses);
         dataHandler.getColumnsById(boardId, function (boards) {
             //boards here is column number, sorry
             let columnContent = '';
@@ -151,6 +201,6 @@ export let dom = {
                 del_cards[i].parentElement.remove();
             });
         }
-    },
+    }
 
 };

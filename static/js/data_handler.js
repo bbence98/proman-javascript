@@ -20,23 +20,23 @@ export let dataHandler = {
         .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
 
-    init: function () {
-    },
-
-    getBoards: function (callback) {
+    getBoards: async function (callback) {
         // the boards are retrieved and then the callback function is called with the boards
 
         // Here we use an arrow function to keep the value of 'this' on dataHandler.
         //    if we would use function(){...} here, the value of 'this' would change.
         this._api_get('/get-boards', (response) => {
             this._data = response;
-            callback(response);
+            callback( response);
         });
     },
 
-    getBoard: function (boardId, callback) {
-        // the board is retrieved and then the callback function is called with the board
-        this._api_get('/')
+    getNextBoardId: function (callback) {
+        this._api_get('/next-board-id', (response) => {
+            this._data = response;
+            callback(response);
+            return response
+        });
     },
 
     getStatuses: function (callback) {
@@ -62,28 +62,28 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
 
-    createNewBoard: function (boardTitle='New Board', column_number=4) {
-        post_fetch.fetch_it('/new-board', boardTitle, column_number)
+    createNewBoard: async function (boardTitle='New Board', column_number='4') {
+        await post_fetch.fetch_it('/new-board', {'title': boardTitle, 'column_number': column_number})
     },
 
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
-        // creates new card, saves it and calls the callback function with its data
+    createNewCard: function (cardTitle, boardId, statusId) {
+        post_fetch.fetch_it('/new-card', {'title': cardTitle, 'boards_id': boardId, 'statuses_id': statusId})
     },
 
-    deleteBoard: function (boardId) {
-        post_fetch.fetch_it(`/delete-board/${boardId}`, boardId)
+    deleteBoard: async function (boardId) {
+        await post_fetch.fetch_it(`/delete-board/${boardId}`, boardId);
     },
 
     deleteCard: function (cardId) {
-        post_fetch.fetch_it(`/delete-card/${cardId}`, cardId)
+        post_fetch.fetch_it(`/delete-card/${cardId}`, cardId);
     },
 
     getColumnsById: function (boardID, callback) {
-    let url = `/get-columns-for-board/${boardID}`;
-    this._api_get(url, (response) => {
-        this._data = response;
-        callback(response);
-    });
+        let url = `/get-columns-for-board/${boardID}`;
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(response);
+        });
     }
 
     // here comes more features

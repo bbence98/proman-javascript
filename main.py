@@ -45,10 +45,7 @@ def get_cards_for_board(board_id: int):
 @app.route('/new-board', methods=['POST'])
 @json_response
 def create_new_board():
-    content = {}
-    data = request.get_json()
-    content['title'] = data
-    return data_manager.insert_record(table_name='boards', records=content)
+    return data_manager.insert_record(table_name='boards', records=request.get_json())
 
 
 @app.route('/delete-board/<board_id>', methods=['POST'])
@@ -73,7 +70,6 @@ def login():
 @app.route("/registration", methods=['POST'])
 @json_response
 def register():
-    print(request.get_json())
     return user_in_db(request.get_json()['register_name'], request.get_json()['register_password'])
 
   
@@ -94,6 +90,20 @@ def get_cards_by_board_id(board_id: int):
 @json_response
 def get_statuses():
     return data_manager.select_query(table='statuses')
+
+
+@app.route('/next-board-id')
+@json_response
+def get_next_board_id():
+    result = data_manager.get_next_id_from_boards()
+    data_ = int(result[0].get('max'))
+    return data_
+
+
+@app.route('/new-card', methods=['POST'])
+@json_response
+def create_new_card():
+    return data_manager.insert_record_into_cards(records=request.get_json())
 
 
 def main():

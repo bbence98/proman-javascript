@@ -8,7 +8,7 @@
 
 body{
     min-width: 620px;
-    background: #ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png);
+    background: #ddd url(https://cmkt-image-prd.freetls.fastly.net/0.1.0/ps/1745823/910/604/m2/fpnw/wm0/img0265-.jpg?1476110840&s=65ebb2edea2fe825c4d9fdcc2b9a7b0f);
     font-family: sans-serif;
 }
 
@@ -181,4 +181,8 @@ section.board{
 
 #register_submit{
     margin-top: 10px;
+}
+
+.main-header {
+    color: white;
 }
