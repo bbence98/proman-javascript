@@ -1,5 +1,6 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
+import {post_fetch} from "./post_fetch.js";
 
 export let dom = {
     init: function () {
@@ -7,6 +8,8 @@ export let dom = {
         window.onload = function () {
             dom.createCard();
             dom.deleteCard();
+            dom.renameCard();
+            dom.renameBoard();
         };
     },
 
@@ -50,7 +53,8 @@ export let dom = {
             boardCounter++;
             boardList += `
                 <section class="board" id="board${board.id}">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
+                    <div class="board-header">
+                        <span class="board-title">${board.title}</span>
                         <button class="board-delete">Delete Board</button>
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
@@ -201,6 +205,58 @@ export let dom = {
                 del_cards[i].parentElement.remove();
             });
         }
-    }
+    },
 
+    renameCard: function () {
+        const cardsTitle = document.querySelectorAll('.card-title');
+        for (let i = 0; i < cardsTitle.length; i++) {
+            cardsTitle[i].addEventListener('click', function () {
+                const oldName = cardsTitle[i].innerHTML;
+                const inputTag = `<input class="new-card-title" type="text" id="card-title" placeholder="${oldName}" required>`;
+                let newTag = document.createRange().createContextualFragment(inputTag);
+                let parentOfCard = cardsTitle[i].parentElement;
+                parentOfCard.appendChild(newTag);
+                cardsTitle[i].remove();
+                const userInput = document.querySelector('#card-title');
+                userInput.addEventListener('keyup', function (event) {
+                    const enter = event.which;
+                    if (enter === 13) {
+                        userInput.remove();
+                        cardsTitle[i].innerHTML = userInput.value;
+                        parentOfCard.appendChild(cardsTitle[i]);
+                        dataHandler.renameCard(parentOfCard.id, userInput.value);
+                    }
+                });
+                userInput.addEventListener('blur', function () {
+                    parentOfCard.insertAdjacentElement('afterbegin', cardsTitle[i]);
+                    userInput.remove();
+                })
+            })
+        }
+    },
+
+    renameBoard: function () {
+        const boardsTitle = document.querySelectorAll('.board-title');
+        for (let i =0; i < boardsTitle.length; i++) {
+            boardsTitle[i].addEventListener('click', function () {
+                const oldName = boardsTitle[i].innerHTML;
+                const inputTag = `<input class="new-board-title" type="text" id="board-title" placeholder="${oldName}" required>`;
+                const parentOfBoard = boardsTitle[i].parentElement;
+                const grandParentOfBoard = boardsTitle[i].parentElement.parentElement;
+                parentOfBoard.insertAdjacentHTML('afterbegin', inputTag);
+                boardsTitle[i].remove();
+
+                const userInput = document.querySelector('#board-title');
+                userInput.addEventListener('keyup', function (event) {
+                const key = event.which;
+                    if (key === 13) {
+                        userInput.remove();
+                        boardsTitle[i].innerHTML = userInput.value;
+                        parentOfBoard.insertAdjacentElement('afterbegin', boardsTitle[i]);
+                        dataHandler.renameBoard(grandParentOfBoard.id.slice(5), userInput.value)
+                    }
+                });
+            })
+        }
+    }
 };
