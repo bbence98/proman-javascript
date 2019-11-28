@@ -6,7 +6,7 @@ export let dom = {
     init: function () {
         dom.loadBoards();
         window.onload = dom.deleteCard;
-        window.onload = sayHey.heyho();
+        window.onload = drag.dragEvent;
     },
 
     loadBoards: function () {
@@ -119,7 +119,6 @@ export let dom = {
     },
 
     loadColumnsById: function (statuses, boardId, callback) {
-        console.log(statuses);
         dataHandler.getColumnsById(boardId, function (boards) {
             //boards here is column number, sorry
             let columnContent = '';
@@ -127,7 +126,7 @@ export let dom = {
                 columnContent += `
                         <div class="board-column">
                         <div class="board-column-title">${statuses[i].title}</div>
-                        <div class="board-column-content" id="column${i}"></div>
+                        <div class="board-column-content dropzone" id="column${i}"></div>
                         </div>`;
             }
             let outerColumnContent = `
@@ -153,6 +152,7 @@ export let dom = {
                 del_cards[i].parentElement.remove();
             });
         }
+
     },
 
 };

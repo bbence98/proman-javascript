@@ -1,29 +1,32 @@
 export let drag = {
     dragEvent: function () {
       // GET ALL THE PLAYERS - DRAGGABLE AND DROP ZONES
-      var draggable = document.getElementById("draggable"),
-          dropzones = document.getElementsByClassName("dropzone");
+      var draggables = document.querySelectorAll("[id^='draggable']"),
+          dropzones = document.querySelectorAll(".dropzone");
+
 
       // DRAG START - HIGHLIGHT DROP ZONES WITH CSS CLASS
-      draggable.addEventListener("dragstart", function () {
-        for (let i = 0; i < dropzones.length; i++) {
-          dropzones[i].classList.add("active");
-        }
-      });
+      for (let draggable of draggables) {
+          console.log(draggable);
+          draggable.addEventListener("dragstart", function () {
+              for (let i = 0; i < dropzones.length; i++) {
+                  dropzones[i].classList.add("active");
+              }
+          });
 
-      // DRAG END - REMOVE ALL ADDED ACTIVE & OVER CSS CLASS
-      draggable.addEventListener("dragend", function () {
-        for (let i = 0; i < dropzones.length; i++) {
-          dropzones[i].classList.remove("active");
-          dropzones[i].classList.remove("over");
-        }
-      });
+          // DRAG END - REMOVE ALL ADDED ACTIVE & OVER CSS CLASS
+          draggable.addEventListener("dragend", function () {
+              for (let i = 0; i < dropzones.length; i++) {
+                  dropzones[i].classList.remove("active");
+                  dropzones[i].classList.remove("over");
+              }
+          });
 
-      // DRAG - AS YOU ARE DRAGGING
-      draggable.addEventListener("drag", function () {
-        // DO SOMETHING... IF YOU WANT
-      });
-
+          // DRAG - AS YOU ARE DRAGGING
+          draggable.addEventListener("drag", function () {
+              // DO SOMETHING... IF YOU WANT
+          });
+      }
       for (let i = 0; i < dropzones.length; i++) {
         // DRAG ENTER - HIGHLIGHT THIS ZONE
         dropzones[i].addEventListener("dragenter", function () {
@@ -44,10 +47,10 @@ export let drag = {
         dropzones[i].addEventListener("drop", function (evt) {
           evt.preventDefault();
           // Will move the draggable element only if dropped into a different box
-          if (evt.target != draggable.parentNode && evt.target != draggable) {
-            draggable.parentNode.removeChild(draggable);
-            evt.target.appendChild(draggable);
-          }
+                  if (evt.target != draggable.parentNode && evt.target != draggable) {
+                      draggable.parentNode.removeChild(draggable);
+                      evt.target.appendChild(draggable);
+                  }
         });
       }
     }
