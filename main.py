@@ -106,6 +106,18 @@ def create_new_card():
     return data_manager.insert_record_into_cards(records=request.get_json())
 
 
+@app.route('/edit-card/<int:card_id>', methods=['POST'])
+@json_response
+def rename_card(card_id):
+    return data_manager.update_query(table='cards', column='title', update_value=request.get_json(), update_condition='id= ' + str(card_id))
+
+
+@app.route('/edit-board/<int:board_id>', methods=['POST'])
+@json_response
+def rename_board(board_id):
+    return data_manager.update_query(table='boards', column='title', update_value=request.get_json(), update_condition='id=' + str(board_id))
+
+
 def main():
     app.run(debug=True,
             host=get_ip())

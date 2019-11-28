@@ -186,3 +186,7 @@ section.board{
 .main-header {
     color: white;
 }
+
+.new-card-title {
+    width: 168px;
+}

@@ -84,6 +84,14 @@ export let dataHandler = {
             this._data = response;
             callback(response);
         });
+    },
+
+    renameCard: function (cardId, form_request) {
+        post_fetch.fetch_it(`/edit-card/${cardId}`, form_request);
+    },
+
+    renameBoard: function (boardId, form_request) {
+        post_fetch.fetch_it(`/edit-board/${boardId}`, form_request)
     }
 
     // here comes more features
