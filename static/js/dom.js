@@ -1,10 +1,12 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
+import {drag} from "./drag.js";
 
 export let dom = {
     init: function () {
         dom.loadBoards();
         window.onload = dom.deleteCard;
+        window.onload = sayHey.heyho();
     },
 
     loadBoards: function () {
@@ -88,7 +90,7 @@ export let dom = {
         let currentBoard = document.querySelector(currentBoardSelector);
         for (let card of cards) {
             let cardHtml = `
-                            <div class="card" id="${card.id}">
+                            <div class="card" draggable="true" id="draggable ${card.id}">
                             <div class="card-remove">
                                 <i class="fas fa-trash-alt"></i>
                             </div>
