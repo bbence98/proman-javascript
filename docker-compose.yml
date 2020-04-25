@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  proman:
+    image: proman:latest
+    ports:
+    - 5000:5000
+    working_dir: /proman
+    volumes:
+    - ./:/proman
+    environment:
+      PSQL_USER_NAME: asder
+      PSQL_PASSWORD: asd
+      PSQL_HOST: postgres
+      PSQL_DB_NAME: promandb
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: asder
+      POSTGRES_PASSWORD: asd
+      POSTGRES_DB: promandb
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+       - ./sample_data/proman_sample.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+
+volumes:
+    postgres:
