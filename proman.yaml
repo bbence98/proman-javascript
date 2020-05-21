@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: proman
+  name: proman
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: proman
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: proman
+    spec:
+      containers:
+      - env:
+        - name: PSQL_DB_NAME
+          value: postgres
+        - name: PSQL_HOST
+          value: quick-postgres.default:5432
+        - name: PSQL_PASSWORD
+          value: Zb47NsGO3WUi1p5-
+        - name: PSQL_USER_NAME
+          value: postgres
+        image: docker.io/bbence98/proman
+        imagePullPolicy: "Always"
+        name: proman
+        ports:
+        - containerPort: 5000
+        resources: {}
+        workingDir: /my-app
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

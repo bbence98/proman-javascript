@@ -1,0 +1,33 @@
+
+version: "3.3"
+
+services:
+  proman:
+    image: "proman:web"
+    ports:
+    - 5500:5500
+    working_dir: /my-app
+    volumes:
+    - ./:/proman
+    environment:
+      PSQL_USER_NAME: bence
+      PSQL_PASSWORD: pass123
+      PSQL_HOST: postgres
+      PSQL_DB_NAME: proman
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: proman
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+       - ./sample_data/proman_sample.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+
+volumes:
+    postgres:
