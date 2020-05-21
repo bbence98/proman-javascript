@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: proman
+  name: proman
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      io.kompose.service: proman
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: proman
+    spec:
+      containers:
+      - env:
+        - name: PSQL_DB_NAME
+          value: postgres
+        - name: PSQL_HOST
+          value: quick-postgres.default:5432
+        - name: PSQL_PASSWORD
+          value: bNWBkBWkp_JFKVVB
+        - name: PSQL_USER_NAME
+          value: postgres
+        image: mdav001/proman
+        imagePullPolicy: ""
+        name: proman
+        ports:
+        - containerPort: 5000
+        resources: {}
+        workingDir: /proman
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
